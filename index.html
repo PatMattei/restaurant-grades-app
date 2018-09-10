@@ -1,0 +1,82 @@
+<!doctype html>
+<html class="no-js" lang="">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<title></title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="manifest" href="site.webmanifest">
+	<link rel="apple-touch-icon" href="icon.png">
+	<!-- Place favicon.ico in the root directory -->
+
+	<link rel="stylesheet" href="styles/normalize.css">
+	<link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+	<div id="header">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce turpis neque, luctus sed consectetur gravida, scelerisque quis nunc. Donec pulvinar lectus felis, non lobortis enim ultricies ut. Donec vel mauris lacus. Quisque magna diam, condimentum ac ipsum ut, cursus commodo lacus. Duis ornare, sem a fermentum volutpat, neque nisl pellentesque sem, nec bibendum tortor tortor a tellus. Praesent placerat metus vel elit viverra, placerat viverra urna luctus. Maecenas felis felis, condimentum pretium erat eu, porta maximus nulla.</p>
+		<p>Donec maximus auctor tincidunt. Suspendisse mattis commodo dictum. In ut risus et ex rhoncus laoreet sollicitudin sit amet neque. Proin varius ut erat sit amet efficitur. Morbi mattis tortor ac tincidunt euismod. Sed sagittis sapien tincidunt odio auctor vehicula. Vivamus pretium magna eget diam elementum, feugiat venenatis nibh mollis. Nunc accumsan dolor quis finibus porttitor. Sed semper tincidunt odio, vitae malesuada quam porttitor tincidunt. Phasellus interdum diam ac egestas convallis. Quisque tempor faucibus cursus. Nam vel purus a sem porttitor imperdiet convallis vel est. Proin vestibulum elementum finibus. Curabitur in tincidunt eros, nec convallis massa. Etiam porta velit est, ac laoreet dolor bibendum vel.</p>
+	</div>
+	<div id="filters"><!--Pull values for these filters from the API on startup-->
+		<div id="cuisine-description-container" class="dropdown-container">
+			<button>Type of Food</button>
+			<ul class="dropdown">
+				<li><input type="checkbox" value="CafÃ©/Coffee/Tea">CafÃ©/Coffee/Tea</li>
+				<li><input type="checkbox" value="Latin (Cuban, Dominican, Puerto R…">Latin (Cuban, Dominican, Puerto R…</li>
+				<li><input type="checkbox" value="Pizza">Pizza</li>
+				<li><input type="checkbox" value="Italian">Italian</li>
+				<li><input type="checkbox" value="Mexican">Mexican</li>
+				<li><input type="checkbox" value="Japanese">Japanese</li>
+				<li><input type="checkbox" value="Caribbean">Caribbean</li>
+				<li><input type="checkbox" value="Bakery">Bakery</li>
+				<li><input type="checkbox" value="Spanish">Spanish</li>
+				<li><input type="checkbox" value="Pizza/Italian">Pizza/Italian</li>
+				<li><input type="checkbox" value="Chicken">Chicken</li>
+				<li><input type="checkbox" value="Indian">Indian</li>
+				<li><input type="checkbox" value="Asian">Asian</li>
+				<li><input type="checkbox" value="Delicatessen">Delicatessen</li>
+				<li><input type="checkbox" value="Donuts">Donuts</li>
+				<li><input type="checkbox" value="Jewish/Kosher">Jewish/Kosher</li>
+				<li><input type="checkbox" value="Korean">Korean</li>
+				<li><input type="checkbox" value="Thai">Thai</li>
+				<li><input type="checkbox" value="Hamburgers">Hamburgers</li>
+				<li><input type="checkbox" value="French">French</li>
+				<li><input type="checkbox" value="Sandwiches">Sandwiches</li>
+				<li><input type="checkbox" value="Juice, Smoothies, Fruit Salads">Juice, Smoothies, Fruit Salads</li>
+				<li><input type="checkbox" value="Mediterranean">Mediterranean</li>
+			</ul>
+		</div>
+		<div id="grade-container" class="dropdown-container">
+			<button>Sanitation Grade</button>
+			<ul class="dropdown">
+				<li><input type="checkbox" value="(No value)">(No value)</li>
+				<li><input type="checkbox" value="A">A</li>
+				<li><input type="checkbox" value="B">B</li>
+				<li><input type="checkbox" value="C">C</li>
+				<li><input type="checkbox" value="Z">Z</li>
+				<li><input type="checkbox" value="Not Yet Graded">Not Yet Graded</li>
+				<li><input type="checkbox" value="P">P</li>
+			</ul>
+		</div>
+	</div>
+	<div id="map">
+		<!-- <iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/undefined?" allowfullscreen></iframe> -->
+	</div>
+	<div id="footer">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce turpis neque, luctus sed consectetur gravida, scelerisque quis nunc. Donec pulvinar lectus felis, non lobortis enim ultricies ut. Donec vel mauris lacus. Quisque magna diam, condimentum ac ipsum ut, cursus commodo lacus. Duis ornare, sem a fermentum volutpat, neque nisl pellentesque sem, nec bibendum tortor tortor a tellus. Praesent placerat metus vel elit viverra, placerat viverra urna luctus. Maecenas felis felis, condimentum pretium erat eu, porta maximus nulla.</p>
+	</div>
+	
+	<script>
+	var map;
+	function initMap() {
+		map = new google.maps.Map(document.getElementById('map'), {
+			center: {lat: 40.7128, lng: -74.0060},
+			zoom: 12
+		});
+	}
+	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE&callback=initMap" async defer></script>
+</body>
+</html>

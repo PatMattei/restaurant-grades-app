@@ -1,0 +1,29 @@
+#header,
+#footer {
+	padding: 0 30px;
+}
+
+.dropdown-container {
+	display: inline-block;
+	position: relative;
+	min-width: 10%;
+} 
+ul.dropdown {
+	display: none;
+}
+
+ul.dropdown.visible {
+	background-color: #fff;
+	display: block;
+	left: 0;
+	top: 100%;
+	margin: 0;
+	position: absolute;
+	z-index: 10;
+	list-style-type: none;
+}
+
+#map {
+	height: 700px;
+	width: 100%;
+}
