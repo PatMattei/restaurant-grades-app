@@ -21,7 +21,7 @@
 	</div>
 	<div id="filters"><!--Pull values for these filters from the API on startup-->
 		<div id="cuisine-description-container" class="dropdown-container">
-			<button>Type of Food</button>
+			<button class="dropdown-button" id="cuisine-description">Type of Food</button>
 			<ul class="dropdown">
 				<li><input type="checkbox" value="CafÃ©/Coffee/Tea">CafÃ©/Coffee/Tea</li>
 				<li><input type="checkbox" value="Latin (Cuban, Dominican, Puerto R…">Latin (Cuban, Dominican, Puerto R…</li>
@@ -49,8 +49,8 @@
 			</ul>
 		</div>
 		<div id="grade-container" class="dropdown-container">
-			<button>Sanitation Grade</button>
-			<ul class="dropdown">
+			<button class="dropdown-button">Sanitation Grade</button>
+			<ul class="dropdown" id="grade">
 				<li><input type="checkbox" value="(No value)">(No value)</li>
 				<li><input type="checkbox" value="A">A</li>
 				<li><input type="checkbox" value="B">B</li>
@@ -60,6 +60,8 @@
 				<li><input type="checkbox" value="P">P</li>
 			</ul>
 		</div>
+		<button>Clear Filters</button>
+		<button>Favorites</button>
 	</div>
 	<div id="map">
 		<!-- <iframe width="100%" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/undefined?" allowfullscreen></iframe> -->
@@ -68,15 +70,8 @@
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce turpis neque, luctus sed consectetur gravida, scelerisque quis nunc. Donec pulvinar lectus felis, non lobortis enim ultricies ut. Donec vel mauris lacus. Quisque magna diam, condimentum ac ipsum ut, cursus commodo lacus. Duis ornare, sem a fermentum volutpat, neque nisl pellentesque sem, nec bibendum tortor tortor a tellus. Praesent placerat metus vel elit viverra, placerat viverra urna luctus. Maecenas felis felis, condimentum pretium erat eu, porta maximus nulla.</p>
 	</div>
 	
-	<script>
-	var map;
-	function initMap() {
-		map = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: 40.7128, lng: -74.0060},
-			zoom: 12
-		});
-	}
-	</script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE&callback=initMap" async defer></script>
+	<script src="functions.js"></script>
+
 </body>
 </html>
