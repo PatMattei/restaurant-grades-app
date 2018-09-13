@@ -9,8 +9,8 @@ function initMap() {
 	fetch("https://data.cityofnewyork.us/resource/9w7m-hzhe.json", {
 		method: 'get',
 		data: {
-		"$limit": 5000,
-		"$$app_token": "6FjM1ZtKX9i88F2tcHnHGhFjI"
+			"$limit": 5000,
+			"$$app_token": "6FjM1ZtKX9i88F2tcHnHGhFjI"
 		}
 	})//make an initial call
 	.then(res => res.json())
@@ -19,42 +19,60 @@ function initMap() {
 	});
 }
 
-sampleData = [
-	{
-		"action": "Violations were cited in the following area(s).",
-		"boro": "QUEENS",
-		"building": "13620",
-		"camis": "41350583",
-		"critical_flag": "Critical",
-		"cuisine_description": "Japanese",
-		"dba": "AJISEN RAMEN",
-		"inspection_date": "2017-12-07T00:00:00.000",
-		"inspection_type": "Cycle Inspection / Initial Inspection",
-		"phone": "7183958119",
-		"record_date": "2018-09-10T06:01:04.000",
-		"score": "26",
-		"street": "38 AVENUE",
-		"violation_code": "02G",
-		"violation_description": "Cold food item held above 41Âº F (smoked fish and reduced oxygen packaged foods above 38 ÂºF) except during necessary preparation.",
-		"zipcode": "11354"
-	}]
+sampleData = [{
+	"action": "Violations were cited in the following area(s).",
+	"boro": "QUEENS",
+	"building": "13620",
+	"camis": "41350583",
+	"critical_flag": "Critical",
+	"cuisine_description": "Japanese",
+	"dba": "AJISEN RAMEN",
+	"inspection_date": "2017-12-07T00:00:00.000",
+	"inspection_type": "Cycle Inspection / Initial Inspection",
+	"phone": "7183958119",
+	"record_date": "2018-09-10T06:01:04.000",
+	"score": "26",
+	"street": "38 AVENUE",
+	"violation_code": "02G",
+	"violation_description": "Cold food item held above 41Âº F (smoked fish and reduced oxygen packaged foods above 38 ÂºF) except during necessary preparation.",
+	"zipcode": "11354"
+}, {
+	"action": "Violations were cited in the following area(s).",
+	"boro": "MANHATTAN",
+	"building": "436",
+	"camis": "41363369",
+	"critical_flag": "Critical",
+	"cuisine_description": "Pizza",
+	"dba": "LA CROSTA RESTAURANT",
+	"inspection_date": "2015-07-09T00:00:00.000",
+	"inspection_type": "Cycle Inspection / Initial Inspection",
+	"phone": "2124725004",
+	"record_date": "2018-09-12T06:01:14.000",
+	"score": "60",
+	"street": "EAST   72 STREET",
+	"violation_code": "02G",
+	"violation_description": "Cold food item held above 41Âº F (smoked fish and reduced oxygen packaged foods above 38 ÂºF) except during necessary preparation.",
+	"zipcode": "10021"
+}]
 
 function plotPoints(data) {
 	sampleData.forEach(function(i) {
-		let formattedAddess = (i.building + "+" + i.street + "+" + "+" + i.zipcode);
-		console.log(formattedAddess)
-		geocode(formattedAddess)//use geocoding api to convert to lat/long
-			//plot this on map
-		});
+		let formattedAddess = (i.building + "+" + i.street + "+" + i.zipcode);
+		let marker = new google.maps.Marker(geocode(formattedAddess));
+	});
 }
 
 function geocode(address) {
+	let coordinates = {};
+
 	fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE")
 	.then(res => res.json())
 	.then(data => {
-		console.log(data.results[0].geometry.location)
+		coordinates.lat = data.results[0].geometry.location.lat;
+		coordinates.lng = data.results[0].geometry.location.lng;
 	});
 
+	return coordinates;
 }
 
 //TODO:
