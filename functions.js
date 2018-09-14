@@ -6,33 +6,36 @@ function initMap() {
 	});
 
 
-	fetch("https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$limit=100")//make an initial call
+	fetch("https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$limit=1000&$where=zipcode IS NOT NULL AND building IS NOT NULL AND street IS NOT NULL")//make an initial call TO DO narrow down to user's zip?
 	.then(res => res.json())
 	.then(data => {
-		plotPoints(data)
-	});
-
-}
-
-
-function plotPoints(data) {
-	data.forEach(function(i) {
-		let formattedAddess = (i.building + "+" + i.street + "+" + i.zipcode);
-
-		fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + formattedAddess + "&key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE")
-		.then(res => res.json())
-		.then(data => {
-			let coordinates = {lat: data.results[0].geometry.location.lat, lng: data.results[0].geometry.location.lng};
-
-			let elem = {
-				position: coordinates,
-				map: map
-			}
-
-			new google.maps.Marker(elem);
-		});
+		plotPoints(data);
 	});
 }
+
+async function plotPoints(data) {
+	for (let i of data) {
+		let formattedAddress = i.building + "+" + i.street + "+" + i.zipcode;
+		let elem = {
+			map: map
+		};
+		elem.position = await geocode(formattedAddress);
+		new google.maps.Marker(elem);
+	}
+}
+
+async function geocode(address) {
+	const res = await fetch(
+		"https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE"
+	);
+	const data = await res.json();
+	let coordinates = {
+		lat: data.results[0].geometry.location.lat,
+		lng: data.results[0].geometry.location.lng
+	};
+	return coordinates;
+}
+
 //TODO:
 // function to populate filter lists
 	//create empty array for list of cusisine types
