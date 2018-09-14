@@ -13,6 +13,8 @@
 
 	<link rel="stylesheet" href="styles/normalize.css">
 	<link rel="stylesheet" href="styles/main.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
 	<div id="header">
@@ -21,44 +23,12 @@
 	</div>
 	<div id="filters"><!--Pull values for these filters from the API on startup-->
 		<div id="cuisine-description-container" class="dropdown-container">
-			<button class="dropdown-button" id="cuisine-description">Type of Food</button>
-			<ul class="dropdown">
-				<li><input type="checkbox" value="CafÃ©/Coffee/Tea">CafÃ©/Coffee/Tea</li>
-				<li><input type="checkbox" value="Latin (Cuban, Dominican, Puerto R…">Latin (Cuban, Dominican, Puerto R…</li>
-				<li><input type="checkbox" value="Pizza">Pizza</li>
-				<li><input type="checkbox" value="Italian">Italian</li>
-				<li><input type="checkbox" value="Mexican">Mexican</li>
-				<li><input type="checkbox" value="Japanese">Japanese</li>
-				<li><input type="checkbox" value="Caribbean">Caribbean</li>
-				<li><input type="checkbox" value="Bakery">Bakery</li>
-				<li><input type="checkbox" value="Spanish">Spanish</li>
-				<li><input type="checkbox" value="Pizza/Italian">Pizza/Italian</li>
-				<li><input type="checkbox" value="Chicken">Chicken</li>
-				<li><input type="checkbox" value="Indian">Indian</li>
-				<li><input type="checkbox" value="Asian">Asian</li>
-				<li><input type="checkbox" value="Delicatessen">Delicatessen</li>
-				<li><input type="checkbox" value="Donuts">Donuts</li>
-				<li><input type="checkbox" value="Jewish/Kosher">Jewish/Kosher</li>
-				<li><input type="checkbox" value="Korean">Korean</li>
-				<li><input type="checkbox" value="Thai">Thai</li>
-				<li><input type="checkbox" value="Hamburgers">Hamburgers</li>
-				<li><input type="checkbox" value="French">French</li>
-				<li><input type="checkbox" value="Sandwiches">Sandwiches</li>
-				<li><input type="checkbox" value="Juice, Smoothies, Fruit Salads">Juice, Smoothies, Fruit Salads</li>
-				<li><input type="checkbox" value="Mediterranean">Mediterranean</li>
-			</ul>
+			<button class="dropdown-button">Type of Food</button>
+			<ul class="dropdown" id="cuisine-description"></ul>
 		</div>
 		<div id="grade-container" class="dropdown-container">
 			<button class="dropdown-button">Sanitation Grade</button>
-			<ul class="dropdown" id="grade">
-				<li><input type="checkbox" value="(No value)">(No value)</li>
-				<li><input type="checkbox" value="A">A</li>
-				<li><input type="checkbox" value="B">B</li>
-				<li><input type="checkbox" value="C">C</li>
-				<li><input type="checkbox" value="Z">Z</li>
-				<li><input type="checkbox" value="Not Yet Graded">Not Yet Graded</li>
-				<li><input type="checkbox" value="P">P</li>
-			</ul>
+			<ul class="dropdown" id="grade"></ul>
 		</div>
 		<button>Clear Filters</button>
 		<button>Favorites</button>
