@@ -1,34 +1,28 @@
 var map;
+var markers = []; //TODO: write markers into local storage
+
+
+$(document).ready(function() {
+	fetch("https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$limit=5000")//make an initial call -----TO DO: narrow down to user's zip?
+	.then(res => res.json())
+	.then(data => {
+		createMarkers(data);
+		populateFilters(data);
+	});
+});
+
+
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 40.7128, lng: -74.0060}, //TODO: center on user's location
 		zoom: 15
 	});
-
-
-	fetch("https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$limit=5000")//make an initial call -----TO DO: narrow down to user's zip?
-	.then(res => res.json())
-	.then(data => {
-		plotPoints(data);
-		populateFilters(data);
-	});
-}
-
-async function plotPoints(data) {
-	for (let i of data) {
-		let formattedAddress = i.building + "+" + i.street + "+" + i.zipcode;
-		let elem = {
-			map: map
-		};
-		elem.position = await geocode(formattedAddress);
-		new google.maps.Marker(elem);
-	}
 }
 
 async function geocode(address) {
 	const res = await fetch(
 		"https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE"
-	);
+		);
 	const data = await res.json();
 	let coordinates = {
 		lat: data.results[0].geometry.location.lat,
@@ -37,13 +31,22 @@ async function geocode(address) {
 	return coordinates;
 }
 
-$('.dropdown-container').on('click', showFilters);
 
-function showFilters() {
-	$('.dropdown').removeClass('visible');
+function plotPoints() {
+	markers.forEach(function(i) {
+		new google.maps.Marker(i);
+	});
+}
 
-	if ( !$(this).find('.dropdown').hasClass('visible') ) {
-		$(this).find('.dropdown').addClass('visible');
+async function createMarkers(data) {
+	for (let i of data) {
+		let formattedAddress = i.building + "+" + i.street + "+" + i.zipcode;
+		let elem = {
+			map: map
+		};
+		elem.position = await geocode(formattedAddress);
+		markers.push(elem);
+		plotPoints();
 	}
 }
 
@@ -68,14 +71,64 @@ function populateFilters(data) {
 	grades.forEach(function(i) {
 		$('#grade').append('<li><input type="checkbox" value="' + i + '">' + i + '</li>')
 	});
+
+	$('.dropdown input:checkbox').on('click', function() {
+		updateFilters();
+	});
 }
 
-// filter functionality
-	//when a checkbox in dropdown is selected
-		//get values of selected checkboxes
+
+$('.dropdown-container').on('click', function() {
+	$('.dropdown').removeClass('visible');
+
+	if ( !$(this).find('.dropdown').hasClass('visible') ) {
+		$(this).find('.dropdown').addClass('visible');
+	}
+});
+
+//------FIX THESE FUNCTIONS-----
+$('#clear-filters').on('click', clearMarkers);
+function setMapOnAll(map) {
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(map);
+	}
+}
+
+function clearMarkers() {
+	setMapOnAll(null);
+}
+//------FIX THESE FUNCTIONS-----
+
+function updateFilters() {
+	let filters = {};
+	$('.dropdown').each(function() {
+		let filter = $(this).attr('id');
+		filters[filter] = []
+
+		$(this).find('input:checkbox:checked').each(function() {
+			filters[filter].push($(this).attr('value'));
+		});
+	});
+	buildQuery(filters);
+}
+
+function buildQuery(filters) {
+	let query = 'https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where='
+
+	for (var key in filters) {
+		filters[key].forEach(function(d, i) {
+			query = query + '(' + key + '="' + filters[key][i] + '")';
+
+			if (i + 1 != filters[key].length) {
+				query = query + ' OR ';
+			}
+			console.log(query);
+		});
+	}
+}
 
 
-
+//https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where=(grade="A") AND (grade="B") AND (cuisine_description="Mexican" OR cuisine_description="Korean")
 //favorite functionality????
 
 
