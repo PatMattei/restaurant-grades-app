@@ -22,7 +22,8 @@ function initMap() {
 async function geocode(address) {
 	const res = await fetch(
 		"https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyCn2Ht9My5Ps3LJRclNtm-ATeY_zD57nSE"
-		);
+	);
+
 	const data = await res.json();
 	let coordinates = {
 		lat: data.results[0].geometry.location.lat,
@@ -31,23 +32,25 @@ async function geocode(address) {
 	return coordinates;
 }
 
-
-function plotPoints() {
-	markers.forEach(function(i) {
-		new google.maps.Marker(i);
-	});
-}
-
 async function createMarkers(data) {
 	for (let i of data) {
+		let grade = i.grade;
 		let formattedAddress = i.building + "+" + i.street + "+" + i.zipcode;
+
 		let elem = {
-			map: map
+			map: map,
+			icon: 'images/' + grade + '.png'
 		};
 		elem.position = await geocode(formattedAddress);
 		markers.push(elem);
 		plotPoints();
 	}
+}
+
+function plotPoints() {
+	markers.forEach(function(i) {
+		new google.maps.Marker(i);
+	});
 }
 
 function populateFilters(data) {
@@ -102,7 +105,7 @@ function clearMarkers() {
 function updateFilters() {
 	let filters = {};
 	$('.dropdown').each(function() {
-		let filter = $(this).attr('id');
+		let filter = $(this).attr('api-call');
 		filters[filter] = []
 
 		$(this).find('input:checkbox:checked').each(function() {
@@ -113,22 +116,30 @@ function updateFilters() {
 }
 
 function buildQuery(filters) {
-	let query = 'https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where='
+	let query = 'https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where=';
 
 	for (var key in filters) {
 		filters[key].forEach(function(d, i) {
-			query = query + '(' + key + '="' + filters[key][i] + '")';
+			if (i == 0) {
+				query = query + '(';
+			}
+			query = query + key + '="' + d + '"';
 
 			if (i + 1 != filters[key].length) {
 				query = query + ' OR ';
+			} else {
+				query = query + ') AND ';
 			}
-			console.log(query);
 		});
 	}
+	query = query.slice(0, -5); //slice the final ' AND ' statement
+	console.log(map.getCenter());
 }
 
 
-//https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where=(grade="A") AND (grade="B") AND (cuisine_description="Mexican" OR cuisine_description="Korean")
+//https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where=(cuisine_description="Mexican" OR cuisine_description="Korean") AND (grade="A" OR grade="B")
+//https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where=(cuisine-description="Korean" OR cuisine-description="Mexican") AND (grade="A" OR grade="B")
+//https://data.cityofnewyork.us/resource/9w7m-hzhe.json?$where=(cuisine-description="Armenian" OR cuisine-description="Asian" OR cuisine-description="Bagels/Pretzels") AND (grade="C" OR grade="Not Yet Graded")
 //favorite functionality????
 
 
