@@ -2,16 +2,20 @@ var map;
 //TODO: write markers into local storage
 var markers = []; 
 
-function initMap(parameters, center) {
+function initMap(parameters, center, zoom) {
 	//TODO- gelocate on start up
 	if (center == undefined) {
 		center = {lat: 40.7128, lng: -74.0060};
 	}
 
+	if (zoom == undefined) {
+		zoom = 15;
+	}
+
 	$('#map').empty();
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: center,
-		zoom: 15
+		zoom: zoom
 	});
 
 	apiFetch(parameters);
@@ -23,6 +27,7 @@ function apiFetch(parameters) {
 	if (parameters != undefined) {
 		query = query + '&' + parameters;
 	}
+
 
 	fetch(query)	
 	.then(res => res.json())
@@ -70,7 +75,7 @@ function plotPoints() {
 
 var filters = {
 	cuisineTypes: [],
-	grades: ['A', 'B', 'C']
+	grades: []
 }
 
 $('#clear-filters').on('click', clearFilters);
@@ -92,7 +97,6 @@ function populateFilters(data) {
 			filters.grades.push(restaurant.grade);
 			$('#grade').empty();
 			filters.grades.forEach(function(i) {
-				console.log(filters.grades)
 				$('#grade').append('<li><input type="checkbox" value="' + i + '">' + i + '</li>')
 			});
 			filters.grades.sort();
@@ -138,8 +142,9 @@ function updateFilters() {
 	});
 	let query = buildFilterQuery(activeFilters);
 	let center = {lat: map.getCenter().lat(), lng: map.getCenter().lng()};
+	let zoom = (map.getZoom())
 
-	initMap(query, center)
+	initMap(query, center, zoom)
 }
 
 function buildFilterQuery(activeFilters) {
