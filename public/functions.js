@@ -3,21 +3,7 @@ var map;
 var markers = []; 
 
 function initMap(parameters, center) {
-	if (center == undefined) {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(function(position) {
-				var pos = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude
-				};
-
-				map.setCenter(pos);
-			});
-		} else {
-			console.log("get user location not allowed in browser");
-		}
-	}
-
+	//TODO- gelocate on start up
 	if (center == undefined) {
 		center = {lat: 40.7128, lng: -74.0060};
 	}
@@ -84,7 +70,13 @@ function plotPoints() {
 
 var filters = {
 	cuisineTypes: [],
-	grades: []
+	grades: ['A', 'B', 'C']
+}
+
+$('#clear-filters').on('click', clearFilters);
+function clearFilters() {
+	$('.dropdown input:checkbox').prop('checked', false);
+	apiFetch();
 }
 function populateFilters(data) {
 	data.forEach(function(restaurant) {
@@ -100,6 +92,7 @@ function populateFilters(data) {
 			filters.grades.push(restaurant.grade);
 			$('#grade').empty();
 			filters.grades.forEach(function(i) {
+				console.log(filters.grades)
 				$('#grade').append('<li><input type="checkbox" value="' + i + '">' + i + '</li>')
 			});
 			filters.grades.sort();
@@ -121,16 +114,16 @@ $('.dropdown-container').on('click', function() {
 });
 
 //------FIX THESE FUNCTIONS-----
-$('#clear-filters').on('click', clearMarkers);
-function setMapOnAll(map) {
-	for (var i = 0; i < markers.length; i++) {
-		markers[i].setMap(map);
-	}
-}
+// $('#clear-filters').on('click', clearMarkers);
+// function setMapOnAll(map) {
+// 	for (var i = 0; i < markers.length; i++) {
+// 		markers[i].setMap(map);
+// 	}
+// }
 
-function clearMarkers() {
-	setMapOnAll(null);
-}
+// function clearMarkers() {
+// 	setMapOnAll(null);
+// }
 //------FIX THESE FUNCTIONS-----
 
 function updateFilters() {
@@ -162,7 +155,7 @@ function buildFilterQuery(activeFilters) {
 			if (i + 1 != activeFilters[key].length) {
 				query = query + " OR ";
 			} else {query = query + ") AND "}
-		});
+	});
 	}
 	
 	query = query.slice(0, -5); //slice the final ' AND ' statement
